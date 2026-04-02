@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fariez Eirfan — Data Analyst</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #080c12;
+    --bg2: #0d1420;
+    --bg3: #111a28;
+    --cyan: #00d4ff;
+    --cyan-dim: rgba(0,212,255,0.12);
+    --amber: #f5a623;
+    --text: #c8d8e8;
+    --text-dim: #607080;
+    --border: rgba(0,212,255,0.15);
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'DM Sans', sans-serif;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100;
+    background: rgba(8,12,18,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 56px;
+  }
+  .nav-logo { font-family: var(--mono); font-size: 0.85rem; color: var(--cyan); letter-spacing: 0.05em; }
+  .nav-logo span { color: var(--text-dim); }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a { font-family: var(--mono); font-size: 0.75rem; color: var(--text-dim); text-decoration: none; letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--cyan); }
+
+  section { position: relative; z-index: 1; }
+
+  #hero { min-height: 100vh; display: flex; align-items: center; padding: 6rem 4rem 4rem; max-width: 1100px; margin: 0 auto; }
+  .hero-content { max-width: 700px; }
+  .hero-tag { font-family: var(--mono); font-size: 0.75rem; color: var(--cyan); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 1.5rem; opacity: 0; animation: fadeUp 0.6s 0.2s forwards; }
+  .hero-tag::before { content: '> '; color: var(--amber); }
+  h1 { font-family: var(--mono); font-size: clamp(2.4rem, 5vw, 4rem); font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; color: #eef4ff; opacity: 0; animation: fadeUp 0.6s 0.4s forwards; }
+  h1 .accent { color: var(--cyan); }
+  .hero-sub { margin-top: 1.5rem; font-size: 1.05rem; line-height: 1.7; color: var(--text-dim); max-width: 520px; opacity: 0; animation: fadeUp 0.6s 0.6s forwards; }
+  .hero-cta { margin-top: 2.5rem; display: flex; gap: 1rem; flex-wrap: wrap; opacity: 0; animation: fadeUp 0.6s 0.8s forwards; }
+  .btn { font-family: var(--mono); font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.75rem 1.75rem; border-radius: 4px; text-decoration: none; transition: all 0.2s; cursor: pointer; border: none; }
+  .btn-primary { background: var(--cyan); color: #080c12; font-weight: 700; }
+  .btn-primary:hover { background: #33ddff; box-shadow: 0 0 20px rgba(0,212,255,0.4); }
+  .btn-outline { background: transparent; color: var(--cyan); border: 1px solid var(--border); }
+  .btn-outline:hover { border-color: var(--cyan); background: var(--cyan-dim); }
+  .hero-stats { margin-top: 3.5rem; display: flex; gap: 2.5rem; opacity: 0; animation: fadeUp 0.6s 1s forwards; }
+  .stat-num { font-family: var(--mono); font-size: 1.8rem; font-weight: 700; color: var(--cyan); }
+  .stat-label { font-size: 0.75rem; color: var(--text-dim); margin-top: 0.2rem; letter-spacing: 0.05em; }
+
+  .section-wrap { max-width: 1100px; margin: 0 auto; padding: 5rem 4rem; }
+  .section-label { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--amber); margin-bottom: 0.5rem; }
+  .section-label::before { content: '// '; }
+  .section-title { font-family: var(--mono); font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 700; color: #eef4ff; margin-bottom: 3rem; }
+  .section-divider { border: none; border-top: 1px solid var(--border); margin: 0; }
+
+  #about { background: var(--bg2); }
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+  .about-text p { line-height: 1.8; color: var(--text); margin-bottom: 1rem; font-size: 0.95rem; }
+  .about-text p span { color: var(--cyan); font-family: var(--mono); font-size: 0.9rem; }
+  .about-info { display: flex; flex-direction: column; gap: 1rem; }
+  .info-row { display: flex; align-items: flex-start; gap: 1rem; padding: 1rem; border: 1px solid var(--border); border-radius: 6px; background: var(--bg3); }
+  .info-icon { font-size: 1.2rem; margin-top: 2px; }
+  .info-label { font-family: var(--mono); font-size: 0.65rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em; }
+  .info-value { font-size: 0.9rem; color: var(--text); margin-top: 0.2rem; }
+
+  #skills { background: var(--bg); }
+  .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+  .skill-card { border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; background: var(--bg2); transition: border-color 0.2s, transform 0.2s; }
+  .skill-card:hover { border-color: var(--cyan); transform: translateY(-2px); }
+  .skill-card-title { font-family: var(--mono); font-size: 0.75rem; color: var(--cyan); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1rem; }
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .tag { font-family: var(--mono); font-size: 0.72rem; padding: 0.3rem 0.75rem; border-radius: 3px; background: var(--cyan-dim); color: var(--cyan); border: 1px solid rgba(0,212,255,0.2); }
+  .tag.amber { background: rgba(245,166,35,0.1); color: var(--amber); border-color: rgba(245,166,35,0.2); }
+
+  #projects { background: var(--bg2); }
+  .projects-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .project-card { border: 1px solid var(--border); border-radius: 8px; padding: 2rem; background: var(--bg3); position: relative; overflow: hidden; transition: border-color 0.2s, transform 0.2s; }
+  .project-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--cyan), transparent); opacity: 0; transition: opacity 0.2s; }
+  .project-card:hover { border-color: var(--cyan); transform: translateY(-3px); }
+  .project-card:hover::before { opacity: 1; }
+  .project-industry { font-family: var(--mono); font-size: 0.65rem; color: var(--amber); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 0.75rem; }
+  .project-title { font-family: var(--mono); font-size: 1rem; font-weight: 700; color: #eef4ff; margin-bottom: 1rem; line-height: 1.3; }
+  .project-desc { font-size: 0.875rem; line-height: 1.7; color: var(--text-dim); margin-bottom: 1.5rem; }
+  .project-metrics { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+  .metric { font-family: var(--mono); font-size: 0.7rem; padding: 0.25rem 0.6rem; border-radius: 3px; background: rgba(0,212,255,0.08); color: var(--cyan); border: 1px solid rgba(0,212,255,0.15); }
+  .project-stack { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.5rem; }
+  .stack-tag { font-family: var(--mono); font-size: 0.65rem; padding: 0.2rem 0.5rem; border-radius: 2px; background: var(--bg2); color: var(--text-dim); border: 1px solid var(--border); }
+  .project-link { font-family: var(--mono); font-size: 0.72rem; color: var(--cyan); text-decoration: none; letter-spacing: 0.05em; transition: color 0.2s; }
+  .project-link:hover { color: #33ddff; }
+  .project-link::after { content: ' →'; }
+
+  #timeline { background: var(--bg); }
+  .timeline { position: relative; padding-left: 2rem; }
+  .timeline::before { content: ''; position: absolute; left: 0; top: 8px; bottom: 8px; width: 1px; background: linear-gradient(to bottom, var(--cyan), transparent); }
+  .tl-item { position: relative; padding: 0 0 2.5rem 2rem; }
+  .tl-dot { position: absolute; left: -2.45rem; top: 6px; width: 10px; height: 10px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 10px var(--cyan); }
+  .tl-date { font-family: var(--mono); font-size: 0.7rem; color: var(--amber); letter-spacing: 0.1em; margin-bottom: 0.4rem; }
+  .tl-role { font-family: var(--mono); font-size: 1rem; font-weight: 600; color: #eef4ff; margin-bottom: 0.2rem; }
+  .tl-company { font-size: 0.85rem; color: var(--cyan); margin-bottom: 0.75rem; }
+  .tl-desc { font-size: 0.875rem; line-height: 1.7; color: var(--text-dim); }
+  .tl-desc li { margin-left: 1.2rem; margin-bottom: 0.3rem; }
+
+  #contact { background: var(--bg2); }
+  .contact-inner { border: 1px solid var(--border); border-radius: 10px; padding: 3rem; background: var(--bg3); text-align: center; max-width: 600px; margin: 0 auto; }
+  .contact-inner p { color: var(--text-dim); line-height: 1.7; margin-bottom: 2rem; font-size: 0.95rem; }
+  .contact-links { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+
+  footer { text-align: center; padding: 2rem; font-family: var(--mono); font-size: 0.7rem; color: var(--text-dim); border-top: 1px solid var(--border); position: relative; z-index: 1; }
+  footer span { color: var(--cyan); }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 768px) {
+    #hero { padding: 5rem 1.5rem 3rem; }
+    .section-wrap { padding: 3.5rem 1.5rem; }
+    .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+    .hero-stats { gap: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo"><span>~/</span>fariezeirfan</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#timeline">Experience</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<section id="hero">
+  <div class="hero-content">
+    <p class="hero-tag">Available for entry-level DA roles</p>
+    <h1>Fariez Eirfan<br><span class="accent">Data Analyst</span></h1>
+    <p class="hero-sub">Mechanical Engineer turned Data Analyst. I build end-to-end data pipelines and dashboards that transform raw operational data into decisions that move the needle — from the factory floor to the boardroom.</p>
+    <div class="hero-cta">
+      <a href="#projects" class="btn btn-primary">View Projects</a>
+      <a href="https://www.linkedin.com/in/fariezeirfan" target="_blank" class="btn btn-outline">LinkedIn ↗</a>
+    </div>
+    <div class="hero-stats">
+      <div><div class="stat-num">97%</div><div class="stat-label">Data Accuracy</div></div>
+      <div><div class="stat-num">35+</div><div class="stat-label">Stakeholders Served</div></div>
+      <div><div class="stat-num">2hrs</div><div class="stat-label">Daily Time Saved</div></div>
+      <div><div class="stat-num">2</div><div class="stat-label">Live Dashboards</div></div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<section id="about">
+  <div class="section-wrap">
+    <p class="section-label reveal">About</p>
+    <h2 class="section-title reveal">Engineering Mindset.<br>Data-Driven Execution.</h2>
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p>I'm a <span>Mechanical Engineering</span> graduate from UTM with hands-on experience building real analytics solutions inside a semiconductor manufacturing environment.</p>
+        <p>During my apprenticeship, I didn't just analyse data — I built the entire pipeline. From writing <span>PowerShell scripts</span> to automate raw log extraction, all the way to designing <span>Power BI dashboards</span> used daily by 35+ engineers and managers.</p>
+        <p>My engineering background gives me something many analysts lack: I understand the operations behind the data. I know what a yield trend means on the production floor, not just on a chart.</p>
+        <p>Now I'm looking to bring that same end-to-end thinking to an entry-level Data Analyst role — and grow my skills in <span>SQL</span> and <span>Python</span> along the way.</p>
+      </div>
+      <div class="about-info reveal">
+        <div class="info-row"><div class="info-icon">🎓</div><div><div class="info-label">Education</div><div class="info-value">B.Eng Mechanical Engineering<br>Universiti Teknologi Malaysia (UTM)</div></div></div>
+        <div class="info-row"><div class="info-icon">🏭</div><div><div class="info-label">Industry Background</div><div class="info-value">Semiconductor / Electronics Manufacturing</div></div></div>
+        <div class="info-row"><div class="info-icon">🎯</div><div><div class="info-label">Target Role</div><div class="info-value">Entry-Level Data Analyst</div></div></div>
+        <div class="info-row"><div class="info-icon">📍</div><div><div class="info-label">Location</div><div class="info-value">Malaysia</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<section id="skills">
+  <div class="section-wrap">
+    <p class="section-label reveal">Skills</p>
+    <h2 class="section-title reveal">Tools & Technologies</h2>
+    <div class="skills-grid">
+      <div class="skill-card reveal"><div class="skill-card-title">📊 Data Visualization</div><div class="skill-tags"><span class="tag">Microsoft Power BI</span><span class="tag">DAX</span><span class="tag">Power Query</span><span class="tag">Interactive Dashboards</span></div></div>
+      <div class="skill-card reveal"><div class="skill-card-title">🗄️ Data & Querying</div><div class="skill-tags"><span class="tag">SQL</span><span class="tag">Excel (Advanced)</span><span class="tag">EDA</span><span class="tag">Anomaly Detection</span></div></div>
+      <div class="skill-card reveal"><div class="skill-card-title">⚙️ Automation & Scripting</div><div class="skill-tags"><span class="tag">PowerShell</span><span class="tag">Python</span><span class="tag">Data Pipeline</span><span class="tag">File Automation</span></div></div>
+      <div class="skill-card reveal"><div class="skill-card-title">🏭 Domain Knowledge</div><div class="skill-tags"><span class="tag amber">Manufacturing Analytics</span><span class="tag amber">Workforce Analytics</span><span class="tag amber">Production KPIs</span><span class="tag amber">Yield Analysis</span></div></div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<section id="projects">
+  <div class="section-wrap">
+    <p class="section-label reveal">Projects</p>
+    <h2 class="section-title reveal">Featured Work</h2>
+    <div class="projects-grid">
+      <div class="project-card reveal">
+        <div class="project-industry">Semiconductor / Electronics · Manufacturing Analytics</div>
+        <div class="project-title">Machine Output<br>Power BI Dashboard</div>
+        <div class="project-desc">End-to-end automated pipeline replacing 2+ hours of daily manual reporting. Extracted raw <code>.log</code> files via PowerShell, processed through Excel EDA, and delivered real-time production analytics to 35+ stakeholders.</div>
+        <div class="project-metrics"><span class="metric">97% Accuracy</span><span class="metric">2hrs Saved Daily</span><span class="metric">35+ Users</span></div>
+        <div class="project-stack"><span class="stack-tag">PowerShell</span><span class="stack-tag">Excel</span><span class="stack-tag">Power BI</span></div>
+        <a href="https://github.com/fariezeirfan/machine-output-powerbi-dashboard" target="_blank" class="project-link">View on GitHub</a>
+      </div>
+      <div class="project-card reveal">
+        <div class="project-industry">HR Analytics · Workforce Management</div>
+        <div class="project-title">Employee Attendance<br>Power BI Dashboard</div>
+        <div class="project-desc">Built the first-ever attendance tracking system for the System Engineering team. Transformed raw access card swipe logs from ACMS into actionable shift, OT, absence, and headcount insights for engineering managers.</div>
+        <div class="project-metrics"><span class="metric">First of its Kind</span><span class="metric">5 KPI Categories</span><span class="metric">Full Team Coverage</span></div>
+        <div class="project-stack"><span class="stack-tag">ACMS</span><span class="stack-tag">Excel</span><span class="stack-tag">Power BI</span></div>
+        <a href="https://github.com/fariezeirfan/employee-attendance-powerbi-dashboard" target="_blank" class="project-link">View on GitHub</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<section id="timeline">
+  <div class="section-wrap">
+    <p class="section-label reveal">Experience</p>
+    <h2 class="section-title reveal">Career Timeline</h2>
+    <div class="timeline">
+      <div class="tl-item reveal">
+        <div class="tl-dot"></div>
+        <div class="tl-date">2023 — 2024</div>
+        <div class="tl-role">Data Analyst Apprentice</div>
+        <div class="tl-company">Semiconductor / Electronics Manufacturing Company · Malaysia</div>
+        <div class="tl-desc"><ul>
+          <li>Built an automated data pipeline (PowerShell → Excel → Power BI) for real-time machine output monitoring, eliminating 2+ hours of daily manual reporting and achieving 97% data accuracy.</li>
+          <li>Designed the company's first employee attendance analytics dashboard for the System Engineering team, tracking shift patterns, OT, absences, and headcount from access card data.</li>
+          <li>Delivered analytics solutions used daily by 35+ stakeholders including process engineers, production engineers, and upper management.</li>
+        </ul></div>
+      </div>
+      <div class="tl-item reveal">
+        <div class="tl-dot" style="background:var(--text-dim);box-shadow:none;"></div>
+        <div class="tl-date">2019 — 2023</div>
+        <div class="tl-role">B.Eng Mechanical Engineering</div>
+        <div class="tl-company">Universiti Teknologi Malaysia (UTM)</div>
+        <div class="tl-desc"><ul>
+          <li>Graduated with a degree in Mechanical Engineering, building strong foundations in analytical thinking, process systems, and quantitative problem-solving.</li>
+        </ul></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<section id="contact">
+  <div class="section-wrap">
+    <p class="section-label reveal">Contact</p>
+    <h2 class="section-title reveal" style="text-align:center;">Let's Work Together</h2>
+    <div class="contact-inner reveal">
+      <p>I'm actively looking for entry-level Data Analyst opportunities. If you're looking for someone who can build pipelines, design dashboards, and communicate data insights clearly — let's connect.</p>
+      <div class="contact-links">
+        <a href="https://www.linkedin.com/in/fariezeirfan" target="_blank" class="btn btn-primary">LinkedIn</a>
+        <a href="https://github.com/fariezeirfan" target="_blank" class="btn btn-outline">GitHub</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>Built by <span>Fariez Eirfan</span> · Hosted on GitHub Pages · <span>2024</span></footer>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 60);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
